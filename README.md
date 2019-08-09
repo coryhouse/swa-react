@@ -1,6 +1,6 @@
 ## Prerequisites
 
-Do these steps **before** KCDC:
+Do these steps **before** our session:
 
 If you have any problems, email cory@reactjsconsulting.com.
 
