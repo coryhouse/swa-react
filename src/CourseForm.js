@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UserContext from "./UserContext";
 
 function CourseForm(props) {
   const [course, setCourse] = useState({
     title: "",
-    category: ""
+    category: "",
+    authorId: 1 // HACK: Hard coding authorId.
   });
+  const user = useContext(UserContext);
 
   function onChange(event) {
     const newCourse = { ...course }; //copy the course object
@@ -13,7 +16,8 @@ function CourseForm(props) {
   }
 
   return (
-    <form onSubmit={() => props.onSubmit(course)}>
+    <form onSubmit={event => props.onSubmit(course, event)}>
+      {user.name}
       <div>
         <label htmlFor="title">Title</label>
         <br />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as api from "./api/courseApi";
 import CourseForm from "./CourseForm";
+import UserContext from "./UserContext";
 
 function App(props) {
   // Declare state using the React useState hook
@@ -17,8 +18,14 @@ function App(props) {
     setCourses(newCourses);
   }
 
-  function handleSave(course) {
-    debugger;
+  function handleSave(course, event) {
+    event.preventDefault();
+    api.addCourse(course).then(savedCourse => {
+      const newCourses = [...courses, savedCourse];
+      // The course has been saved to the db.
+      debugger;
+      setCourses(newCourses);
+    });
   }
 
   function renderCourse(course) {
@@ -33,8 +40,9 @@ function App(props) {
     );
   }
 
+  const user = { name: "Cory", email: "cor@h.com" };
   return (
-    <>
+    <UserContext.Provider value={user}>
       <h1>Courses</h1>
       <CourseForm onSubmit={handleSave} />
       <table>
@@ -46,7 +54,7 @@ function App(props) {
         </thead>
         <tbody>{courses.map(renderCourse)}</tbody>
       </table>
-    </>
+    </UserContext.Provider>
   );
 }
 
