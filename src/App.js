@@ -1,30 +1,24 @@
-import React, { useState } from "react";
-
-const initialCourses = [
-  {
-    id: 1,
-    title: "Securing React Apps with Auth0",
-    slug: "react-auth0-authentication-security",
-    authorId: 1,
-    category: "JavaScript"
-  },
-  {
-    id: 2,
-    title: "React: The Big Picture",
-    slug: "react-big-picture",
-    authorId: 1,
-    category: "JavaScript"
-  }
-];
+import React, { useState, useEffect } from "react";
+import * as api from "./api/courseApi";
+import CourseForm from "./CourseForm";
 
 function App(props) {
   // Declare state using the React useState hook
-  const [courses, setCourses] = useState(initialCourses);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    api.getCourses().then(courses => setCourses(courses));
+  }, []);
 
   function deleteCourse(id) {
     // Note: not mutating state. Creating an updated copy.
+    api.deleteCourse(id); // delete course from the db.
     const newCourses = courses.filter(course => course.id !== id);
     setCourses(newCourses);
+  }
+
+  function handleSave(course) {
+    debugger;
   }
 
   function renderCourse(course) {
@@ -42,6 +36,7 @@ function App(props) {
   return (
     <>
       <h1>Courses</h1>
+      <CourseForm onSubmit={handleSave} />
       <table>
         <thead>
           <tr>
